@@ -13,7 +13,7 @@ async function getPosts() {
   return resDate.data.posts;
 }
 
-async function showPosts() {
+async function displayPosts() {
   const postsContainer = document.getElementById("posts-container");
   let content = "";
 
@@ -25,7 +25,7 @@ async function showPosts() {
     posts.forEach((post) => {
       content += `
             <article class="overflow-hidden bg-gray-100 rounded-lg">
-                <a href="/posts/${post.id}">
+                <a href="./post-details.html?id=${post.id}">
                 <img alt="Post image" class="block h-80 w-full" src="${post.img}" />
                 </a>
 
@@ -48,4 +48,4 @@ async function showPosts() {
   postsContainer.innerHTML = content;
 }
 
-showPosts();
+displayPosts();

@@ -12,17 +12,57 @@
       class="bg-[#f6f7f3] text-gray-700 flex items-center justify-between px-6 py-4"
     >
       <h2 class="text-xl font-medium text-yellow-600">
-        <a href="index.html">My Journal</a>
+        <a href="./index.html">My Journal</a>
       </h2>
 
       <a
         class="text-sm bg-[#0f0d35] text-gray-100 rounded-lg px-4 py-2 hover:underline"
-        href="create-post.html"
+        href="./create-post.html"
         >Create New Post</a
       >
     </header>
 
-    <main class="mx-6 my-6"></main>
+    <main class="mx-6 my-6">
+      <section class="block p-6 rounded-lg bg-[#f6f7f3] min-w-md mx-auto">
+        <form method="post">
+          <div class="form-group mb-6">
+            <input
+              type="text"
+              class="form-control block w-full px-3 py-1.5 bg-[#f6f7f3] border border-gray-300 rounded transition ease-in-out m-0 focus:border-[#0f0d35] focus:outline-none"
+              placeholder="Title"
+              name="title"
+              id="post-title"
+            />
+          </div>
+          <div class="form-group mb-6">
+            <textarea
+              class="form-control block w-full px-3 py-1.5 bg-[#f6f7f3] border border-gray-300 rounded transition ease-in-out m-0 focus:border-[#0f0d35] focus:outline-none"
+              rows="3"
+              name="content"
+              placeholder="Content..."
+              id="post-content"
+            ></textarea>
+          </div>
+          <div class="form-group mb-6">
+            <input
+              type="text"
+              class="form-control block w-full px-3 py-1.5 bg-[#f6f7f3] border border-gray-300 rounded transition ease-in-out m-0 focus:border-[#0f0d35] focus:outline-none"
+              name="img"
+              placeholder="Image URL"
+              value="https://images.unsplash.com/photo-1527830445224-99afa9184ec6"
+              id="post-img"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full px-6 py-2.5 bg-[#0f0d35] text-white font-medium text-xs leading-tight uppercase rounded hover:bg-yellow-600 focus:outline-none transition duration-150 ease-in-out"
+            id="submit-btn"
+          >
+            Create Post
+          </button>
+        </form>
+      </section>
+    </main>
 
     <footer
       class="fixed bottom-0 w-full border-t-2 border-[#0f0d35] text-center px-6 py-4 bg-[#f6f7f3] text-[#0f0d35]"
@@ -33,5 +73,7 @@
         2023
       </p>
     </footer>
+
+    <script src="js/create-post.js"></script>
   </body>
 </html>

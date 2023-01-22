@@ -94,7 +94,7 @@ app.get(`${endpoint}/:id`, (req, res) => {
   } else {
     res.status(404).json({
       status: "fail",
-      message: "Invalid ID.",
+      message: "Invalid post ID.",
     });
   }
 });
