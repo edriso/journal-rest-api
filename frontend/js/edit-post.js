@@ -21,7 +21,7 @@ async function displayPost() {
     const post = postResponse.data.post;
 
     let content = `<section class="block p-6 rounded-lg bg-[#f6f7f3] min-w-md mx-auto">
-              <form method="post">
+              <form action="./post-details.html?id=${postId}" method="post" >
                 <div class="form-group mb-6">
                   <input
                     type="text"
@@ -74,32 +74,38 @@ postContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
 
-    const title = document.getElementById("post-title").value.trim();
-    const content = document.getElementById("post-content").value.trim();
-    const img = document.getElementById("post-img").value.trim();
+    handleEdit();
+  }
+});
 
-    if (title && content) {
-      let URL = `http://localhost:3000/api/v1/posts/${postId}`;
+function handleEdit() {
+  const title = document.getElementById("post-title").value.trim();
+  const content = document.getElementById("post-content").value.trim();
+  const img = document.getElementById("post-img").value.trim();
 
-      fetch(URL, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title,
-          content,
-          img,
-        }),
-      }).then((res) => {
-        console.log(res);
-        // window.location.href = "./index.html";
+  if (title && content) {
+    const editedPost = JSON.stringify({
+      title,
+      content,
+      img,
+    });
+
+    // let URL = `http://localhost:3000/api/v1/posts/${postId}`;
+    let URL = `http://localhost:3000/api/v1/posts/${postId}/edit`;
+    fetch(URL, {
+      // method: "PUT",
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: editedPost,
+    })
+      .then(() => {
+        window.location.href = `./post-details.html?id=${postId}`;
+      })
+      .catch((err) => {
+        console.log(err.message);
         window.location.href = `./post-details.html?id=${postId}`;
       });
 
-      // axios.put(URL, {
-      //   title,
-      //   content,
-      //   img,
-      // });
-    }
+    return false;
   }
-});
+}

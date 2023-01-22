@@ -2,21 +2,25 @@
 
 A simple journal/posting app using Nodejs, Express, tailwindCSS.
 
+## To Start The App
+
+In the backend folder run `npm install` then `npm start`.
+
+After that open an html file in the frontend folder.
+
 ### The project is separated into:
 
 - backend; for Rest API.
 - frontend; for using the app.
 
-#### Author should be able to:
+#### Client is able to:
 
 - Display all posts
 - Add new post
 - Edit post
 - Delete post
-- Search for posts by Author and content
+- Search for posts by title or content
 
-## To Start The App
+#### Snapshot of the app
 
-In the backend folder run `npm install` then `npm start`.
-
-After that open html files in the frontend folder.
+![Snapshot](frontend/images/snapshot.png)

@@ -30,7 +30,8 @@ app.get(endpoint, (req, res) => {
   if (query) {
     allPosts = posts.filter(
       (post) =>
-        post.title.indexOf(query) > -1 || post.content.indexOf(query) > -1
+        post.title.toLowerCase().indexOf(query.toLowerCase()) > -1 ||
+        post.content.toLowerCase().indexOf(query.toLowerCase()) > -1
     );
   }
 
@@ -100,7 +101,8 @@ app.get(`${endpoint}/:id`, (req, res) => {
 });
 
 // Update Post
-app.put(`${endpoint}/:id`, (req, res) => {
+// app.put(`${endpoint}/:id`, (req, res) => {
+app.post(`${endpoint}/:id/edit`, (req, res) => {
   const id = req.params.id * 1;
   const postIndex = posts.findIndex((post) => post.id === id * 1);
 
@@ -135,7 +137,8 @@ app.put(`${endpoint}/:id`, (req, res) => {
 });
 
 // Delete Post
-app.delete(`${endpoint}/:id`, (req, res) => {
+// app.delete(`${endpoint}/:id`, (req, res) => {
+app.post(`${endpoint}/:id/delete`, (req, res) => {
   const selectedPost = posts.find((post) => post.id === req.params.id * 1);
   if (selectedPost) {
     posts = posts.filter((post) => post.id !== req.params.id * 1);

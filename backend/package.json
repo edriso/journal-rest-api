@@ -1,5 +1,5 @@
 {
-  "name": "journal-rest-api",
+  "name": "journal-rest-api-backend",
   "version": "1.0.0",
   "description": "Practicing Rest API for simple journal app.",
   "main": "app.js",
