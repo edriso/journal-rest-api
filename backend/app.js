@@ -100,7 +100,7 @@ app.get(`${endpoint}/:id`, (req, res) => {
 });
 
 // Update Post
-app.patch(`${endpoint}/:id`, (req, res) => {
+app.put(`${endpoint}/:id`, (req, res) => {
   const id = req.params.id * 1;
   const postIndex = posts.findIndex((post) => post.id === id * 1);
 

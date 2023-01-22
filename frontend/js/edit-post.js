@@ -73,10 +73,33 @@ displayPost();
 postContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
+
     const title = document.getElementById("post-title").value.trim();
     const content = document.getElementById("post-content").value.trim();
     const img = document.getElementById("post-img").value.trim();
-    // postId;
-    console.log(title, content);
+
+    if (title && content) {
+      let URL = `http://localhost:3000/api/v1/posts/${postId}`;
+
+      fetch(URL, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          content,
+          img,
+        }),
+      }).then((res) => {
+        console.log(res);
+        // window.location.href = "./index.html";
+        window.location.href = `./post-details.html?id=${postId}`;
+      });
+
+      // axios.put(URL, {
+      //   title,
+      //   content,
+      //   img,
+      // });
+    }
   }
 });

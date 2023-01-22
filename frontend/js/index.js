@@ -21,19 +21,20 @@ async function displayPosts() {
 
   if (!posts.length) {
     content = `<div class="text-center"><h3 class="text-[#f6f7f3]">There's No Posts!</h3></div>`;
+    postsContainer.classList = ["posts"];
   } else {
     posts.forEach((post) => {
-      content += `
-            <article class="overflow-hidden bg-gray-100 rounded-lg">
-                <a href="./post-details.html?id=${post.id}">
+      content += `<article class="overflow-hidden bg-gray-100 rounded-lg">`;
+      if (post.img) {
+        content += `<a href="./post-details.html?id=${post.id}">
                 <img alt="Post image" class="block h-80 w-full" src="${post.img}" />
-                </a>
-
-                <header class="flex items-center justify-between leading-tight p-2 md:p-4">
+                </a>`;
+      }
+      content += `<header class="flex items-center justify-between leading-tight p-2 md:p-4">
                 <h3 class="text-md">
                     <a
                     class="no-underline hover:underline text-gray-800"
-                    href="/posts/${post.id}"
+                    href="./post-details.html?id=${post.id}"
                     >
                     ${post.title}
                     </a>
