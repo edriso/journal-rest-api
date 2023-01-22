@@ -2,19 +2,44 @@ const fs = require("fs");
 const express = require("express");
 const app = express();
 
+const port = process.env.SERVER_PORT || 3000;
+
 app.use(express.json());
 
 const endpoint = "/api/v1/posts";
+
+// Add Access Control Allow Origin headers
+// https://www.freecodecamp.org/news/access-control-allow-origin-header-explained/
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 let posts = JSON.parse(fs.readFileSync(`${__dirname}/db/posts.json`));
 
 // Get All Posts
 app.get(endpoint, (req, res) => {
+  const query = req.query.q;
+
+  let allPosts = posts;
+
+  if (query) {
+    allPosts = posts.filter(
+      (post) =>
+        post.title.indexOf(query) > -1 || post.content.indexOf(query) > -1
+    );
+  }
+
   res.status(200).json({
     status: "success",
     results: posts.length,
     data: {
-      posts,
+      posts: allPosts,
+      query,
     },
   });
 });
@@ -129,7 +154,6 @@ app.delete(`${endpoint}/:id`, (req, res) => {
   }
 });
 
-const port = 3000;
 app.listen(port, () => {
-  console.log(`App is up and running on port ${port}`);
+  console.log(`Listening on port ${port}`);
 });
