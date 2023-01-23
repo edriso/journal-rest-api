@@ -1,7 +1,9 @@
 const fs = require("fs");
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 
+app.use(morgan("dev"));
 app.use(express.json());
 
 // Add Access Control Allow Origin headers
@@ -148,19 +150,19 @@ const deletePost = (req, res) => {
 };
 
 // Routes
-app.route("/api/v1/posts").get(getAllPosts).post(createPost);
-app.route("/api/v1/posts/:id").get(getPost);
+const postRouter = express.Router();
+
+app.use("/api/v1/posts", postRouter);
+
+postRouter.route("/").get(getAllPosts).post(createPost);
+postRouter.route("/:id").get(getPost);
 // .patch(updatePost)
 // .delete(deletePost);
 
-// Update Post
-// app.patch("/api/v1/posts/:id", (req, res) => {
-app.post("/api/v1/posts/:id/edit", updatePost);
-// Delete Post
-// app.delete("/api/v1/posts/:id", (req, res) => {
-app.post("/api/v1/posts/:id/delete", deletePost);
+postRouter.route("/:id/edit").post(updatePost);
+postRouter.route("/:id/delete").post(deletePost);
 
-const port = process.env.SERVER_PORT || 3000;
+const port = 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
