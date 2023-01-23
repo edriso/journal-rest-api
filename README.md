@@ -1,6 +1,6 @@
 # journal-rest-api
 
-A simple journal/posting app using Nodejs, Express, tailwindCSS.
+A simple journal app using Nodejs, Express, tailwindCSS.
 
 ### To Start The App
 
