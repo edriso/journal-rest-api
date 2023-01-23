@@ -6,7 +6,7 @@ A simple journal/posting app using Nodejs, Express, tailwindCSS.
 
 In the backend folder run `npm install` then `npm start`.
 
-After that open an html file in the frontend folder.
+After that open an html file from dist folder in the frontend.
 
 #### Client is able to:
 
@@ -16,6 +16,6 @@ After that open an html file in the frontend folder.
 - Delete post
 - Search for posts by title or content
 
-#### Snapshot of the app
+#### Snapshot from the app
 
-![Snapshot](frontend/images/snapshot.png)
+![Snapshot](./snapshot.png)
