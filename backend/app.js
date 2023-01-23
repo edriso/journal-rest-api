@@ -6,7 +6,9 @@ const app = express();
 const postRouter = require("./routes/postRoutes");
 
 // Middlewares
-app.use(morgan("dev"));
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 app.use(express.json());
 
 // Add Access Control Allow Origin headers
