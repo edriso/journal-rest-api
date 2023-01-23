@@ -93,7 +93,7 @@ function handleEdit() {
     // let URL = `http://localhost:3000/api/v1/posts/${postId}`;
     let URL = `http://localhost:3000/api/v1/posts/${postId}/edit`;
     fetch(URL, {
-      // method: "PUT",
+      // method: "PATCH",
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: editedPost,

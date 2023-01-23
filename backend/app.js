@@ -4,8 +4,6 @@ const app = express();
 
 app.use(express.json());
 
-const endpoint = "/api/v1/posts";
-
 // Add Access Control Allow Origin headers
 // https://www.freecodecamp.org/news/access-control-allow-origin-header-explained/
 app.use((req, res, next) => {
@@ -19,8 +17,8 @@ app.use((req, res, next) => {
 
 let posts = JSON.parse(fs.readFileSync(`${__dirname}/db/posts.json`));
 
-// Get All Posts
-app.get(endpoint, (req, res) => {
+// Handler functions
+const getAllPosts = (req, res) => {
   const query = req.query.q;
 
   let allPosts = posts;
@@ -41,10 +39,26 @@ app.get(endpoint, (req, res) => {
       query,
     },
   });
-});
+};
 
-// Create New Post
-app.post(endpoint, (req, res) => {
+const getPost = (req, res) => {
+  const id = req.params.id * 1;
+  const selectedPost = posts.find((post) => post.id === id);
+
+  if (selectedPost) {
+    res.status(200).json({
+      status: "success",
+      data: { post: selectedPost },
+    });
+  } else {
+    res.status(404).json({
+      status: "fail",
+      message: "Invalid post ID.",
+    });
+  }
+};
+
+const createPost = (req, res) => {
   const title = req.body.title.trim();
   const content = req.body.content.trim();
   const img = req.body.img;
@@ -78,29 +92,9 @@ app.post(endpoint, (req, res) => {
       message: "Missing post title or content.",
     });
   }
-});
+};
 
-// Get Post
-app.get(`${endpoint}/:id`, (req, res) => {
-  const id = req.params.id * 1;
-  const selectedPost = posts.find((post) => post.id === id);
-
-  if (selectedPost) {
-    res.status(200).json({
-      status: "success",
-      data: { post: selectedPost },
-    });
-  } else {
-    res.status(404).json({
-      status: "fail",
-      message: "Invalid post ID.",
-    });
-  }
-});
-
-// Update Post
-// app.put(`${endpoint}/:id`, (req, res) => {
-app.post(`${endpoint}/:id/edit`, (req, res) => {
+const updatePost = (req, res) => {
   const id = req.params.id * 1;
   const postIndex = posts.findIndex((post) => post.id === id * 1);
 
@@ -132,11 +126,9 @@ app.post(`${endpoint}/:id/edit`, (req, res) => {
       message: "Post not found.",
     });
   }
-});
+};
 
-// Delete Post
-// app.delete(`${endpoint}/:id`, (req, res) => {
-app.post(`${endpoint}/:id/delete`, (req, res) => {
+const deletePost = (req, res) => {
   const selectedPost = posts.find((post) => post.id === req.params.id * 1);
   if (selectedPost) {
     posts = posts.filter((post) => post.id !== req.params.id * 1);
@@ -153,7 +145,20 @@ app.post(`${endpoint}/:id/delete`, (req, res) => {
       message: "Post not found.",
     });
   }
-});
+};
+
+// Routes
+app.route("/api/v1/posts").get(getAllPosts).post(createPost);
+app.route("/api/v1/posts/:id").get(getPost);
+// .patch(updatePost)
+// .delete(deletePost);
+
+// Update Post
+// app.patch("/api/v1/posts/:id", (req, res) => {
+app.post("/api/v1/posts/:id/edit", updatePost);
+// Delete Post
+// app.delete("/api/v1/posts/:id", (req, res) => {
+app.post("/api/v1/posts/:id/delete", deletePost);
 
 const port = process.env.SERVER_PORT || 3000;
 app.listen(port, () => {
