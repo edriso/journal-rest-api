@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const postController = require("../controllers/postController");
 
+// Param middle
+router.param("id", postController.checkPostID);
+
 router
   .route("/")
   .get(postController.getAllPosts)

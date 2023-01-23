@@ -2,6 +2,21 @@ const fs = require("fs");
 
 let posts = JSON.parse(fs.readFileSync(`${__dirname}/../db/posts.json`));
 
+// Middleware function
+exports.checkPostID = (req, res, next, val) => {
+  const selectedPost = posts.find((post) => post.id === val * 1);
+
+  if (!selectedPost) {
+    // return is used to not running next() middlewares
+    return res.status(404).json({
+      status: "fail",
+      message: "Post not found.",
+    });
+  }
+
+  next();
+};
+
 // Handler||Controller functions
 exports.getAllPosts = (req, res) => {
   const query = req.query.q;
@@ -30,17 +45,10 @@ exports.getPost = (req, res) => {
   const id = req.params.id * 1;
   const selectedPost = posts.find((post) => post.id === id);
 
-  if (selectedPost) {
-    res.status(200).json({
-      status: "success",
-      data: { post: selectedPost },
-    });
-  } else {
-    res.status(404).json({
-      status: "fail",
-      message: "Invalid post ID.",
-    });
-  }
+  res.status(200).json({
+    status: "success",
+    data: { post: selectedPost },
+  });
 };
 
 exports.createPost = (req, res) => {
@@ -105,29 +113,16 @@ exports.updatePost = (req, res) => {
       status: "fail",
       message: "Missing post title or content.",
     });
-  } else {
-    res.status(400).json({
-      status: "fail",
-      message: "Post not found.",
-    });
   }
 };
 
 exports.deletePost = (req, res) => {
-  const selectedPost = posts.find((post) => post.id === req.params.id * 1);
-  if (selectedPost) {
-    posts = posts.filter((post) => post.id !== req.params.id * 1);
+  posts = posts.filter((post) => post.id !== req.params.id * 1);
 
-    fs.writeFile(`${__dirname}/../db/posts.json`, JSON.stringify(posts), () => {
-      res.status(204).json({
-        status: "success",
-        data: null,
-      });
+  fs.writeFile(`${__dirname}/../db/posts.json`, JSON.stringify(posts), () => {
+    res.status(204).json({
+      status: "success",
+      data: null,
     });
-  } else {
-    res.status(400).json({
-      status: "fail",
-      message: "Post not found.",
-    });
-  }
+  });
 };
