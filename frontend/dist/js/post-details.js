@@ -79,7 +79,7 @@ postContainer.addEventListener("click", (e) => {
     // let URL = `http://localhost:3000/api/v1/posts/${postId}`;
     let URL = `http://localhost:3000/api/v1/posts/${postId}/delete`;
     fetch(URL, {
-      //   method: "DELETE",
+      // method: "DELETE",
       method: "POST",
     }).then(() => {
       window.location.href = "./index.html";

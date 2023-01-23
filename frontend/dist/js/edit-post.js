@@ -103,7 +103,6 @@ function handleEdit() {
       })
       .catch((err) => {
         console.log(err.message);
-        window.location.href = `./post-details.html?id=${postId}`;
       });
 
     return false;

@@ -2,19 +2,21 @@ const express = require("express");
 const router = express.Router();
 const postController = require("../controllers/postController");
 
-// Param middle
+// id param middleware
 router.param("id", postController.checkPostID);
 
 router
   .route("/")
   .get(postController.getAllPosts)
-  .post(postController.createPost);
+  .post(postController.checkPostBody, postController.createPost);
 
 router.route("/:id").get(postController.getPost);
-// .patch(postController.updatePost)
+// .patch(postController.checkPostBody, postController.updatePost);
 // .delete(postController.deletePost);
 
-router.route("/:id/edit").post(postController.updatePost);
+router
+  .route("/:id/edit")
+  .post(postController.checkPostBody, postController.updatePost);
 router.route("/:id/delete").post(postController.deletePost);
 
 module.exports = router;

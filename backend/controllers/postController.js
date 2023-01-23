@@ -2,7 +2,8 @@ const fs = require("fs");
 
 let posts = JSON.parse(fs.readFileSync(`${__dirname}/../db/posts.json`));
 
-// Middleware function
+// checkPostID middleware function
+// it ends response with 404 if postId wasn't exist
 exports.checkPostID = (req, res, next, val) => {
   const selectedPost = posts.find((post) => post.id === val * 1);
 
@@ -11,6 +12,22 @@ exports.checkPostID = (req, res, next, val) => {
     return res.status(404).json({
       status: "fail",
       message: "Post not found.",
+    });
+  }
+
+  next();
+};
+
+// checkPostBody middleware
+// sends 400 (bad req) if post wasn't contain a title nor content
+// Add it to the post handler stack
+exports.checkPostBody = (req, res, next) => {
+  const title = req.body.title.trim();
+  const content = req.body.content.trim();
+  if (!title || !content) {
+    return res.status(400).json({
+      status: "fail",
+      message: "Missing post title or content.",
     });
   }
 
@@ -54,37 +71,30 @@ exports.getPost = (req, res) => {
 exports.createPost = (req, res) => {
   const title = req.body.title.trim();
   const content = req.body.content.trim();
-  const img = req.body.img;
+  const img = req.body.img || "";
 
-  if (title && content) {
-    const date = new Date();
+  const date = new Date();
 
-    const newPost = {
-      id: date.valueOf(),
-      title,
-      content,
-      img,
-      date: date.toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      }),
-    };
+  const newPost = {
+    id: date.valueOf(),
+    title,
+    content,
+    img,
+    date: date.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }),
+  };
 
-    posts.push(newPost);
+  posts.push(newPost);
 
-    fs.writeFile(`${__dirname}/../db/posts.json`, JSON.stringify(posts), () => {
-      res.status(201).json({
-        status: "success",
-        data: { post: newPost },
-      });
+  fs.writeFile(`${__dirname}/../db/posts.json`, JSON.stringify(posts), () => {
+    res.status(201).json({
+      status: "success",
+      data: { post: newPost },
     });
-  } else {
-    res.status(400).json({
-      status: "fail",
-      message: "Missing post title or content.",
-    });
-  }
+  });
 };
 
 exports.updatePost = (req, res) => {
@@ -93,27 +103,23 @@ exports.updatePost = (req, res) => {
 
   const newTitle = req.body.title.trim();
   const newContent = req.body.content.trim();
-  const newImg = req.body.img;
+  const newImg = req.body.img || "";
 
-  if (posts[postIndex] && newTitle && newContent) {
-    const editedPost = {
-      ...posts[postIndex],
-      title: newTitle,
-      content: newContent,
-      img: newImg,
-    };
+  const editedPost = {
+    ...posts[postIndex],
+    title: newTitle,
+    content: newContent,
+    img: newImg,
+  };
 
-    posts[postIndex] = editedPost;
+  posts[postIndex] = editedPost;
 
-    fs.writeFile(`${__dirname}/../db/posts.json`, JSON.stringify(posts), () => {
-      res.status(200).redirect("/");
+  fs.writeFile(`${__dirname}/../db/posts.json`, JSON.stringify(posts), () => {
+    res.status(200).json({
+      status: "success",
+      data: { post: editedPost },
     });
-  } else if (!newTitle || !newContent) {
-    res.status(400).json({
-      status: "fail",
-      message: "Missing post title or content.",
-    });
-  }
+  });
 };
 
 exports.deletePost = (req, res) => {
