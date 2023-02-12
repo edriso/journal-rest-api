@@ -76,11 +76,9 @@ postContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-btn")) {
     e.preventDefault();
 
-    // let URL = `http://localhost:3000/api/v1/posts/${postId}`;
-    let URL = `http://localhost:3000/api/v1/posts/${postId}/delete`;
+    let URL = `http://localhost:3000/api/v1/posts/${postId}`;
     fetch(URL, {
-      // method: "DELETE",
-      method: "POST",
+      method: "DELETE",
     }).then(() => {
       window.location.href = "./index.html";
     });

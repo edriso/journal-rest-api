@@ -13,12 +13,11 @@ app.use(express.json());
 
 // Add Access Control Allow Origin headers
 // https://www.freecodecamp.org/news/access-control-allow-origin-header-explained/
+// bug solve: https://stackoverflow.com/a/44358265
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PATCH,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
 

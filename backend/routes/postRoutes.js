@@ -10,13 +10,10 @@ router
   .get(postController.getAllPosts)
   .post(postController.checkPostBody, postController.createPost);
 
-router.route("/:id").get(postController.getPost);
-// .patch(postController.checkPostBody, postController.updatePost);
-// .delete(postController.deletePost);
-
 router
-  .route("/:id/edit")
-  .post(postController.checkPostBody, postController.updatePost);
-router.route("/:id/delete").post(postController.deletePost);
+  .route("/:id")
+  .get(postController.getPost)
+  .patch(postController.checkPostBody, postController.updatePost)
+  .delete(postController.deletePost);
 
 module.exports = router;

@@ -90,11 +90,9 @@ function handleEdit() {
       img,
     });
 
-    // let URL = `http://localhost:3000/api/v1/posts/${postId}`;
-    let URL = `http://localhost:3000/api/v1/posts/${postId}/edit`;
+    let URL = `http://localhost:3000/api/v1/posts/${postId}`;
     fetch(URL, {
-      // method: "PATCH",
-      method: "POST",
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: editedPost,
     })
