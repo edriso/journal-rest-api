@@ -4,9 +4,9 @@ A simple journal app using Nodejs, Express, tailwindCSS.
 
 ### To Start The App
 
-In the backend folder run `npm install` then `npm start`.
+- In the 'backend' folder run `npm install` then `npm start`.
 
-After that open an html file from dist folder in the frontend.
+- Then, in the 'frontend' folder open an html file from 'dist' folder.
 
 #### Client is able to:
 
